@@ -7,8 +7,8 @@ import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
 const layout = (props) => {
     return (
         <Aux>
-            <SideDrawer />
-            <Toolbar />
+            <SideDrawer state={props.state}/>
+            <Toolbar menuClick={props.menuClick}/>
             <main className={classes.Content}>
                 {props.children}
             </main>

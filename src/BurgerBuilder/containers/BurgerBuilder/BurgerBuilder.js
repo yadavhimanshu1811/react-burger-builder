@@ -27,7 +27,13 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 4,
         notPurchasable: true,
-        purchasing: false
+        purchasing: false,
+        showSideDrawer:false
+    }
+
+    toggleSideDrawer=()=>{
+        const currState= this.state.showSideDrawer;
+        this.setState({showSideDrawer:!currState});
     }
 
     updatePurchaseState = (ingredients) => {
