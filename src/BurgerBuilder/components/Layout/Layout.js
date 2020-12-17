@@ -11,7 +11,6 @@ const layout = (props) => {
             <Toolbar menuClick={props.menuClick}/>
             <main className={classes.Content}>
                 {props.children}
-                {props.children}
             </main>
         </Aux>
     );
