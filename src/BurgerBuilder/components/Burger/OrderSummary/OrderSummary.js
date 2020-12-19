@@ -13,6 +13,10 @@ const orderSummary = (props) => {
                 </li>
             )
         })
+        const func=()=>{
+            alert('testing');
+            props.modalClosed();
+        }
     return (
         <Aux>
             <h3>Your order</h3>
@@ -23,8 +27,15 @@ const orderSummary = (props) => {
                 {ingredientSummary}
             </ul>
             <p>Continue to Checkout ?</p>
-            <Button>Continue</Button>
-            <Button>Cancel</Button>
+            <Button clicked={()=>{
+                props.modalClosed();
+                alert('Your order is received');
+            }}>Continue</Button>
+
+            <Button clicked={()=>{
+                props.modalClosed();
+                alert('Order Cancelled');
+            }}>Cancel</Button>
         </Aux>
     );
 

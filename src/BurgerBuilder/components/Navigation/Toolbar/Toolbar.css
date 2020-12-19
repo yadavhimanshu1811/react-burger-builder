@@ -20,3 +20,8 @@
     height: 100%;
     
 }
+@media (max-width: 520px) {
+    .Toolbar nav {
+        display: none;
+    }
+}

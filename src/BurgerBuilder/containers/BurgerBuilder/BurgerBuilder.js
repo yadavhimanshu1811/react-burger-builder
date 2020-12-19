@@ -28,12 +28,12 @@ class BurgerBuilder extends Component {
         totalPrice: 4,
         notPurchasable: true,
         purchasing: false,
-        showSideDrawer:false
+        showSideDrawer: false
     }
 
-    toggleSideDrawer=()=>{
-        const currState= this.state.showSideDrawer;
-        this.setState({showSideDrawer:!currState});
+    toggleSideDrawer = () => {
+        const currState = this.state.showSideDrawer;
+        this.setState({ showSideDrawer: !currState });
     }
 
     updatePurchaseState = (ingredients) => {
@@ -101,9 +101,14 @@ class BurgerBuilder extends Component {
 
         return (
             <Aux>
-                
-                <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                    <OrderSummary ingredients={this.state.ingredients} totalPrice={this.state.totalPrice} />
+
+                <Modal show={this.state.purchasing}
+                    modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        totalPrice={this.state.totalPrice}
+                        modalClosed={this.purchaseCancelHandler}
+                    />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
