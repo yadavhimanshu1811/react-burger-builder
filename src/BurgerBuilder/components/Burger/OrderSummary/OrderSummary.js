@@ -7,35 +7,26 @@ const orderSummary = (props) => {
         .map(igKey => {
             return (
                 <li key={igKey}>
-                    <span style={{  textTransform: 'capitalize', fontWeight: '900' }}>
+                    <span style={{ textTransform: 'capitalize', fontWeight: '900' }}>
                         {igKey}: {props.ingredients[igKey]}
                     </span>
                 </li>
             )
         })
-        const func=()=>{
-            alert('testing');
-            props.modalClosed();
-        }
+
     return (
         <Aux>
             <h3>Your order</h3>
-            
+
             <p><strong>The price of burger is: {props.totalPrice.toFixed(2)} $</strong></p>
             <p>A delicious order with following ingredients: </p>
             <ul>
                 {ingredientSummary}
             </ul>
             <p>Continue to Checkout ?</p>
-            <Button clicked={()=>{
-                props.modalClosed();
-                alert('Your order is received');
-            }}>Continue</Button>
+            <Button clicked={props.purchaseContinueHandler}>Continue</Button>
 
-            <Button clicked={()=>{
-                props.modalClosed();
-                alert('Order Cancelled');
-            }}>Cancel</Button>
+            <Button clicked={props.purchaseCancelHandler}>Cancel</Button>
         </Aux>
     );
 
