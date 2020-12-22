@@ -11,7 +11,7 @@ class Orders extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('https://my-react-burger-1811-default-rtdb.firebaseio.com/orders.json')
+        axios.get('/orders.json')
             .then(res => {
                 // console.log('Data fetched');
                 const fetchedOrders = [];
