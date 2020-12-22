@@ -28,10 +28,39 @@ const order = (props) => {
     );
   })
 
+  const customerinformation = [];
+  for (let customerKey in props.customerData) {
+    customerinformation.push(
+      {
+        name: customerKey,
+        amount: props.customerData[customerKey]
+      }
+    );
+  }
+
+  const customerOutput = customerinformation.map(cus => {
+    if(cus.amount==='')return null;
+    return (
+      <span
+        key={cus.name}
+        style={{
+          textTransform:'capitalize',
+          display:'inline-block',
+          margin:'0 8px',
+          padding: '5px',
+          border:'1px solid #ccc'
+          }}>
+        {cus.name} : {cus.amount} 
+      </span>
+    );
+  })
+
+
   return (
     <div className={classes.Order}>
       <p>Ingredients : {ingredientOutput}</p>
       <p>Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong></p>
+      <p>Customer Details : {customerOutput}</p>
     </div>
   );
 }

@@ -6,6 +6,12 @@
     border: 1px solid #AA6817;
 }
 
+.button:disabled{
+    color:rgb(216, 213, 213);
+    cursor:not-allowed;
+    border: 1px solid rgb(243, 240, 240);
+}
+
 .Success{
     color:green;
 }

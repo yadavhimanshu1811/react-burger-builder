@@ -37,6 +37,7 @@ class Orders extends React.Component {
                             key={order.id}
                             ingredients={order.ingredients}
                             price={order.price}
+                            customerData={order.orderData}
                         />
                     );
                 })}
