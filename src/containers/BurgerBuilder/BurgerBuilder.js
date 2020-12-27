@@ -50,7 +50,7 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        this.props.history.push('/checkout');
+        this.props.history.push('/reactLiveWebsite/checkout');
     }
 
     render() {

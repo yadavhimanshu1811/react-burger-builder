@@ -112,7 +112,7 @@ class ContactData extends React.Component {
             .then(response => {
                 console.log(response);
                 this.setState({ loading: false });
-                this.props.history.push('/');
+                this.props.history.push('/reactLiveWebsite');
             })
             .catch(error => {
                 console.log(error);

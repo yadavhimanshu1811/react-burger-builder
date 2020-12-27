@@ -20,9 +20,9 @@ class App extends Component {
             <div>
                 <Layout menuClick={this.toggleSideDrawer} showSideDrawer={this.state.showSideDrawer}>
                     <Switch>
-                        <Route path="/checkout" component={Checkout} />
-                        <Route path="/orders" component={Orders} />
-                        <Route path="/" exact component={BurgerBuilder} />
+                        <Route path="/reactLiveWebsite/checkout" component={Checkout} />
+                        <Route path="/reactLiveWebsite/orders" component={Orders} />
+                        <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
                     </Switch>
                 </Layout>
             </div>
