@@ -1,11 +1,13 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Button from "../../../components/UI/Button/Button";
 import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from "../../../HOC/withErrorHandler/withErrorHandler";
+import * as actions from '../../../store/actions/index';
 
 class ContactData extends React.Component {
     state = {
@@ -21,7 +23,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
-                touched:false
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -34,7 +36,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
-                touched:false
+                touched: false
             },
             zipCode: {
                 elementType: 'input',
@@ -45,10 +47,10 @@ class ContactData extends React.Component {
                 value: '',
                 validation: {
                     required: true,
-                    length:6
+                    length: 6
                 },
                 valid: false,
-                touched:false
+                touched: false
             },
             country: {
                 elementType: 'input',
@@ -61,7 +63,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
-                touched:false
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -74,7 +76,7 @@ class ContactData extends React.Component {
                     required: true
                 },
                 valid: false,
-                touched:false
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -85,18 +87,17 @@ class ContactData extends React.Component {
                         { value: 'normal', displayValue: 'Normal' },
                     ]
                 },
-                validation:{},
-                value:'fastest',
-                valid:true
+                validation: {},
+                value: 'fastest',
+                valid: true
             },
         },
-        formIsValid:false,
-        loading: false
+        formIsValid: false
     }
 
     orderHandler = (event) => {
         event.preventDefault();
-        this.setState({ loading: true });
+
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] =
@@ -108,26 +109,17 @@ class ContactData extends React.Component {
             orderData: formData
         }
 
-        axios.post('/orders.json', order)
-            .then(response => {
-                console.log(response);
-                this.setState({ loading: false });
-                this.props.history.push('/reactLiveWebsite');
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({ loading: false });
-            });
+        this.props.onOrderBurger(order);
     }
 
     checkValidity(value, rules) {
         let isValid = true;
-        if(!rules)return isValid;
+        if (!rules) return isValid;
         if (rules.required) {
             isValid = value.trim() !== '' && isValid;
         }
-        if(rules.length){
-            isValid = value.length ===rules.length && isValid;
+        if (rules.length) {
+            isValid = value.length === rules.length && isValid;
         }
         return isValid;
     }
@@ -139,19 +131,19 @@ class ContactData extends React.Component {
         const updatedFormElement = {
             ...updatedOrderForm[inputIdentifier]
         }
-        updatedFormElement.touched=true;
+        updatedFormElement.touched = true;
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid =
             this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         // console.log(updatedFormElement);
-        let formIsValid= true;
-        for(let inputIdentifier in updatedOrderForm){
-            formIsValid = 
-            updatedOrderForm[inputIdentifier].valid && formIsValid;
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid =
+                updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
 
-        this.setState({ orderForm: updatedOrderForm, formIsValid:formIsValid });
+        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
 
     }
 
@@ -181,7 +173,7 @@ class ContactData extends React.Component {
                 <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
             </form>
         );
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />;
         }
         return (
@@ -193,11 +185,19 @@ class ContactData extends React.Component {
     }
 }
 
-const mapStatetoProps =state=>{
-    return{
-        ings:state.ingredients,
-        price: state.totalPrice
+const mapStatetoProps = state => {
+    return {
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading
     }
 };
 
-export default connect(mapStatetoProps)(ContactData);
+const mapDispatchtoProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    };
+
+}
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(withErrorHandler(ContactData, axios));
