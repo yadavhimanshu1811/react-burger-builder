@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
+import Auth from './containers/Auth/Auth';
 
 class App extends Component {
     state = {
@@ -25,6 +26,7 @@ class App extends Component {
                     <Switch>
                         <Route path="/reactLiveWebsite/checkout" component={Checkout} />
                         <Route path="/reactLiveWebsite/orders" component={Orders} />
+                        <Route path="/reactLiveWebsite/auth" component={Auth} />
                         <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
                     </Switch>
                 </Layout>

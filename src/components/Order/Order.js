@@ -61,7 +61,7 @@ const order = (props) => {
   return (
     <div className={classes.Order}>
       <p>Ingredients : {ingredientOutput}</p>
-      <p>Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong></p>
+      <p>Price: <strong>₹ {Number.parseFloat(props.price).toFixed(2)}</strong></p>
       <p>Customer Details : {customerOutput}</p>
       <Button btnType='Danger' clicked={props.btnClick}>Delete</Button>
     </div>

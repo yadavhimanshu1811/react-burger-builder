@@ -3,15 +3,15 @@ import { updateObject } from '../utility';
 
 const initialState = {
     ingredients: null,
-    totalPrice: 4,
+    totalPrice: 150,
     error: false
 };
 
 const INGREDIENT_PRICES = {
-    salad: 0.5,
-    bacon: 0.4,
-    meat: 1.3,
-    cheese: 0.7,
+    salad: 50,
+    bacon: 80,
+    meat: 100,
+    cheese: 70,
 }
 
 const reducer = (state = initialState, action) => {
@@ -41,7 +41,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: action.ingredients,
-                totalPrice: 4,
+                totalPrice: 150,
                 error: false
             }
         case actionTypes.FETCH_INGREDIENTS_FAILED:

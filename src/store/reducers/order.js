@@ -10,7 +10,7 @@ const deleteOrders = (state, action) => {
         ...state.orders
     ]
     newOrders = newOrders.filter(element => element.id !== action.orderId);
-    console.log(newOrders);
+    
     return {
         ...state,
         orders: newOrders
