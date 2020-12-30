@@ -11,11 +11,7 @@ const controls = [
 
 const buildControls = (props) => {
 
-    // Alternate method.
-    // let labels = Object.keys(props.ingredients)
-    //     .map((val, i) => {
-    //         return <BuildControl label={val} ingredients={props.ingredients} key={val + i} />
-    //     })
+    
    
     return (
         <div className={classes.BuildControls}>

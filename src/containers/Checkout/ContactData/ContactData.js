@@ -119,7 +119,7 @@ class ContactData extends React.Component {
             isValid = value.trim() !== '' && isValid;
         }
         if (rules.length) {
-            isValid = value.length === rules.length && isValid;
+            isValid = value.length <= rules.length && isValid;
         }
         return isValid;
     }

@@ -3,12 +3,12 @@ import Aux from '..//../HOC/Aux';
 import classes from './Layout.css';
 import Toolbar from "../Navigation/Toolbar/Toolbar";
 import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
-// import Backdrop from '../UI/Backdrop/Backdrop';
+import Backdrop from '../UI/Backdrop/Backdrop';
 
 const layout = (props) => {
     return (
         <Aux>
-            {/* <Backdrop show={props.showSideDrawer} /> */}
+            <Backdrop show={props.showSideDrawer} clicked={props.menuClick} />
             <SideDrawer state={props.showSideDrawer} />
             <Toolbar menuClick={props.menuClick} />
             <main className={classes.Content}>

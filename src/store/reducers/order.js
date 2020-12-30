@@ -3,15 +3,26 @@ import * as actionTypes from "../actions/actionsTypes";
 const initialState = {
     orders: [],
     loading: false,
-    purchased:false
+    purchased: false
+}
+const deleteOrders = (state, action) => {
+    let newOrders = [
+        ...state.orders
+    ]
+    newOrders = newOrders.filter(element => element.id !== action.orderId);
+    console.log(newOrders);
+    return {
+        ...state,
+        orders: newOrders
+    };
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.PURCHASE_INIT:
-            return{
+            return {
                 ...state,
-                purchased:false
+                purchased: false
             };
         case actionTypes.PURCHASE_BURGER_START:
             return {
@@ -26,7 +37,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                purchased:true,
+                purchased: true,
                 orders: state.orders.concat(newOrder)
             };
         case actionTypes.PURCHASE_BURGER_FAILED:
@@ -34,6 +45,24 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: false
             };
+        case actionTypes.FETCH_ORDERS_START:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.FETCH_ORDERS_SUCCESS:
+            return {
+                ...state,
+                orders: action.orders,
+                loading: false
+            };
+        case actionTypes.FETCH_ORDERS_FAIL:
+            return {
+                ...state,
+                loading: false
+            };
+        case actionTypes.DELETE_ORDER:
+            return deleteOrders(state, action);
 
         default: return state;
     }

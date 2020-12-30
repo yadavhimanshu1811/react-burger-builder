@@ -1,49 +1,57 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+
 import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
+import * as actions from '../../store/actions/index';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends React.Component {
 
-    state = {
-        orders: [],
-        loading: true
-    }
-
     componentDidMount() {
-        axios.get('/orders.json')
-            .then(res => {
-                // console.log('Data fetched');
-                const fetchedOrders = [];
-                for (let key in res.data) {
-                    fetchedOrders.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
-                this.setState({ loading: false, orders: fetchedOrders });
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-            });
+        // console.log('beforefetch');
+        this.props.OnFetchOrders();
+        // console.log('afterfetch');
     }
 
     render() {
+        let orders = <Spinner />
+        // console.log('render');
+        if (!this.props.loading) {
+            orders = this.props.orders.map(order => {
+                // console.log('testing', order)
+                return (
+                    <Order
+                        key={order.id}
+                        ingredients={order.ingredients}
+                        price={order.price}
+                        customerData={order.orderData}
+                        btnClick={() => this.props.deleteOrder(order.id)}
+                    />
+                );
+            })
+        }
         return (
             <div>
-                {this.state.orders.map(order => {
-                    return (
-                        <Order
-                            key={order.id}
-                            ingredients={order.ingredients}
-                            price={order.price}
-                            customerData={order.orderData}
-                        />
-                    );
-                })}
+                {orders}
             </div>
         );
     };
 };
+const mapDispatchToProps = dispatch => {
+    return {
+        OnFetchOrders: () => dispatch(actions.fetchOrders()),
+        deleteOrder: (id) => dispatch(actions.deleteOrder(id))
+    }
+}
 
-export default withErrorHandler(Orders, axios);
+const mapStateToProps = state => {
+    return {
+        orders: state.order.orders,
+        loading: state.order.loading
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));

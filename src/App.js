@@ -18,7 +18,10 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Layout menuClick={this.toggleSideDrawer} showSideDrawer={this.state.showSideDrawer}>
+                <Layout 
+                menuClick={this.toggleSideDrawer} 
+                showSideDrawer={this.state.showSideDrawer}
+                >
                     <Switch>
                         <Route path="/reactLiveWebsite/checkout" component={Checkout} />
                         <Route path="/reactLiveWebsite/orders" component={Orders} />
