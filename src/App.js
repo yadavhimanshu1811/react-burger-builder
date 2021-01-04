@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,42 +10,41 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
-class App extends Component {
+const app = props => {
 
-    componentDidMount() {
-        this.props.onTryAutoSignUp();
-    }
-    render() {
+    useEffect(()=> {
+        props.onTryAutoSignUp();
+    },[]);
 
-        let routes = (
+    let routes = (
+        <Switch>
+            <Route path="/reactLiveWebsite/auth" component={Auth} />
+            <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
+            <Redirect to='/reactLiveWebsite' />
+        </Switch>
+    );
+    if (props.isAuth) {
+        routes = (
             <Switch>
                 <Route path="/reactLiveWebsite/auth" component={Auth} />
+                <Route path="/reactLiveWebsite/checkout" component={Checkout} />
+                <Route path="/reactLiveWebsite/orders" component={Orders} />
+                <Route path="/reactLiveWebsite/logout" component={Logout} />
                 <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
                 <Redirect to='/reactLiveWebsite' />
             </Switch>
         );
-        if (this.props.isAuth) {
-            routes = (
-                <Switch>
-                    <Route path="/reactLiveWebsite/auth" component={Auth} />
-                    <Route path="/reactLiveWebsite/checkout" component={Checkout} />
-                    <Route path="/reactLiveWebsite/orders" component={Orders} />
-                    <Route path="/reactLiveWebsite/logout" component={Logout} />
-                    <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
-                    <Redirect to='/reactLiveWebsite' />
-                </Switch>
-            );
-        }
-
-
-        return (
-            <div>
-                <Layout>
-                    {routes}
-                </Layout>
-            </div>
-        );
     }
+
+
+    return (
+        <div>
+            <Layout>
+                {routes}
+            </Layout>
+        </div>
+    );
+
 }
 
 const mapStateToProps = state => {
@@ -59,4 +58,4 @@ const mapDispatchToProps = dispatch => {
         onTryAutoSignUp: () => dispatch(actions.authCheckState())
     };
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(app));
