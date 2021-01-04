@@ -8,6 +8,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from "../../../HOC/withErrorHandler/withErrorHandler";
 import * as actions from '../../../store/actions/index';
+import { checkValidity} from "../../../shared/utility";
 
 class ContactData extends React.Component {
     state = {
@@ -47,7 +48,7 @@ class ContactData extends React.Component {
                 value: '',
                 validation: {
                     required: true,
-                    length: 6
+                    minlength: 6
                 },
                 valid: false,
                 touched: false
@@ -106,22 +107,11 @@ class ContactData extends React.Component {
         const order = {
             ingredients: this.props.ings,
             price: this.props.price,
-            orderData: formData
+            orderData: formData,
+            userid: this.props.userId
         }
 
-        this.props.onOrderBurger(order);
-    }
-
-    checkValidity(value, rules) {
-        let isValid = true;
-        if (!rules) return isValid;
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-        if (rules.length) {
-            isValid = value.length <= rules.length && isValid;
-        }
-        return isValid;
+        this.props.onOrderBurger(order, this.props.token);
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -134,7 +124,7 @@ class ContactData extends React.Component {
         updatedFormElement.touched = true;
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid =
-            this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
+            checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedOrderForm[inputIdentifier] = updatedFormElement;
         // console.log(updatedFormElement);
         let formIsValid = true;
@@ -189,13 +179,15 @@ const mapStatetoProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 };
 
 const mapDispatchtoProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
     };
 
 }

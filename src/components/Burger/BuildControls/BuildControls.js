@@ -11,8 +11,8 @@ const controls = [
 
 const buildControls = (props) => {
 
-    
-   
+
+
     return (
         <div className={classes.BuildControls}>
             {/* {labels} */}
@@ -23,12 +23,18 @@ const buildControls = (props) => {
                         label={val.label}
                         key={val.type}
                         disabled={props.disabled[val.type]}
-                        added={()=>props.ingredientAdded(val.type)}
-                        removed={()=>props.ingredientRemoved(val.type)}
+                        added={() => props.ingredientAdded(val.type)}
+                        removed={() => props.ingredientRemoved(val.type)}
                     />
                 })
             }
-            <button onClick={props.ordered} className={classes.OrderButton} disabled={!props.purchasable}>ORDER NOW</button>
+            <button
+                onClick={props.ordered}
+                className={classes.OrderButton}
+                disabled={!props.purchasable}
+            >
+                {props.isAuth?"ORDER NOW":"SIGNUP TO ORDER"}
+            </button>
         </div>
     );
 }

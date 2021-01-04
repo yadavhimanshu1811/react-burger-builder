@@ -10,17 +10,13 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class Orders extends React.Component {
 
     componentDidMount() {
-        // console.log('beforefetch');
-        this.props.OnFetchOrders();
-        // console.log('afterfetch');
+        this.props.OnFetchOrders(this.props.token, this.props.userId);
     }
 
     render() {
         let orders = <Spinner />
-        // console.log('render');
         if (!this.props.loading) {
             orders = this.props.orders.map(order => {
-                // console.log('testing', order)
                 return (
                     <Order
                         key={order.id}
@@ -41,7 +37,7 @@ class Orders extends React.Component {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        OnFetchOrders: () => dispatch(actions.fetchOrders()),
+        OnFetchOrders: (token,userId) => dispatch(actions.fetchOrders(token,userId)),
         deleteOrder: (id) => dispatch(actions.deleteOrder(id))
     }
 }
@@ -49,7 +45,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId:state.auth.userId
     }
 }
 

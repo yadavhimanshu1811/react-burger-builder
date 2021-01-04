@@ -32,8 +32,14 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {    //What happens without fat arrow function???
-        this.setState({ purchasing: true });
-        // alert('Your order is received !!');
+        if (this.props.isAuth) {
+            this.setState({ purchasing: true });
+        } else {
+
+            this.props.onSetAuthRedirectPath('/reactLiveWebsite/checkout');
+            this.props.history.push('/reactLiveWebsite/auth');
+        }
+
     }
 
     purchaseCancelHandler = () => {
@@ -68,6 +74,7 @@ class BurgerBuilder extends Component {
                         price={this.props.price}
                         purchasable={this.updatePurchaseState(this.props.ings)}
                         ordered={this.purchaseHandler}
+                        isAuth={this.props.isAuth}
                     />
                 </Aux>
             );
@@ -94,7 +101,8 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuth: state.auth.token !== null
     };
 }
 const mapDispatchToProps = dispatch => {
@@ -106,7 +114,9 @@ const mapDispatchToProps = dispatch => {
         onInitIngredients: () =>
             dispatch(actions.initIngredients()),
         onInitPurchase: () =>
-            dispatch(actions.purchaseInit())
+            dispatch(actions.purchaseInit()),
+        onSetAuthRedirectPath: (path) =>
+            dispatch(actions.setAuthRedirectPath(path))
     };
 }
 

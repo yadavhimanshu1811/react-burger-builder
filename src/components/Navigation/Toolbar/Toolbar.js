@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from "./Toolbar.css";
 import Logo from '../../Logo/Logo';
-import NavtigationItems from '../NavigationItems/NavigationItems';
+import NavigationItems from '../NavigationItems/NavigationItems';
 import Button from '../../UI/Button/Button';
 
 const toolbar=(props)=> {
@@ -9,9 +9,9 @@ const toolbar=(props)=> {
     <header className={classes.Toolbar}>
         {/* <div onClick={props.menuClick}>Menu</div> */}
         <Button clicked={props.menuClick}>Menu</Button>
-        <Logo height='80%'/>
+        <Logo height='90%' width='12%'/>
         <nav>
-            <NavtigationItems/>
+            <NavigationItems isAuth={props.isAuth}/>
         </nav>
     </header>
   );

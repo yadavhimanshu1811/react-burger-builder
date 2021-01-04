@@ -1,38 +1,62 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Layout from './components/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
+import * as actions from './store/actions/index';
 
 class App extends Component {
-    state = {
-        showSideDrawer: false
-    }
 
-    toggleSideDrawer = () => {
-        const currState = this.state.showSideDrawer;
-        this.setState({ showSideDrawer: !currState });
+    componentDidMount() {
+        this.props.onTryAutoSignUp();
     }
     render() {
+
+        let routes = (
+            <Switch>
+                <Route path="/reactLiveWebsite/auth" component={Auth} />
+                <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
+                <Redirect to='/reactLiveWebsite' />
+            </Switch>
+        );
+        if (this.props.isAuth) {
+            routes = (
+                <Switch>
+                    <Route path="/reactLiveWebsite/auth" component={Auth} />
+                    <Route path="/reactLiveWebsite/checkout" component={Checkout} />
+                    <Route path="/reactLiveWebsite/orders" component={Orders} />
+                    <Route path="/reactLiveWebsite/logout" component={Logout} />
+                    <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
+                    <Redirect to='/reactLiveWebsite' />
+                </Switch>
+            );
+        }
+
+
         return (
             <div>
-                <Layout 
-                menuClick={this.toggleSideDrawer} 
-                showSideDrawer={this.state.showSideDrawer}
-                >
-                    <Switch>
-                        <Route path="/reactLiveWebsite/checkout" component={Checkout} />
-                        <Route path="/reactLiveWebsite/orders" component={Orders} />
-                        <Route path="/reactLiveWebsite/auth" component={Auth} />
-                        <Route path="/reactLiveWebsite/" exact component={BurgerBuilder} />
-                    </Switch>
+                <Layout>
+                    {routes}
                 </Layout>
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.token !== null
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onTryAutoSignUp: () => dispatch(actions.authCheckState())
+    };
+};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
