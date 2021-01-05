@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -8,36 +8,36 @@ import ContactData from './ContactData/ContactData';
 // import { ThemeProvider } from 'styled-components';
 // import { purchaseBurgerSuccess } from '../../store/actions/order';
 
-class Checkout extends Component {
+const checkout = props => {
 
-    checkoutCancelledHandler = () => {
-        this.props.history.goBack();
+    const checkoutCancelledHandler = () => {
+        props.history.goBack();
     }
 
-    checkoutContinuedHandler = () => {
-        this.props.history.replace('/reactLiveWebsite/checkout/contact-data');
+    const checkoutContinuedHandler = () => {
+        props.history.replace('/reactLiveWebsite/checkout/contact-data');
     }
-    render() {
-        let summary = <Redirect to='/reactLiveWebsite' />
 
-        if (this.props.ings) {
-            const purchasedRedirect = this.props.purchased ? <Redirect to='/reactLiveWebsite' /> : null
-            summary =
-                <div>
-                    {purchasedRedirect}
-                    <CheckoutSummary
-                        ingredients={this.props.ings}
-                        checkoutCancelled={this.checkoutCancelledHandler}
-                        checkoutContinued={this.checkoutContinuedHandler}
-                    />
-                    <Route
-                        path={this.props.match.path + '/contact-data'}
-                        component={ContactData}
-                    />
-                </div>
-        }
-        return summary;
+    let summary = <Redirect to='/reactLiveWebsite' />
+
+    if (props.ings) {
+        const purchasedRedirect = props.purchased ? <Redirect to='/reactLiveWebsite' /> : null
+        summary =
+            <div>
+                {purchasedRedirect}
+                <CheckoutSummary
+                    ingredients={props.ings}
+                    checkoutCancelled={checkoutCancelledHandler}
+                    checkoutContinued={checkoutContinuedHandler}
+                />
+                <Route
+                    path={props.match.path + '/contact-data'}
+                    component={ContactData}
+                />
+            </div>
     }
+    return summary;
+
 }
 
 const mapStatetoProps = state => {
@@ -47,4 +47,4 @@ const mapStatetoProps = state => {
     }
 }
 
-export default connect(mapStatetoProps)(Checkout);
+export default connect(mapStatetoProps)(checkout);
