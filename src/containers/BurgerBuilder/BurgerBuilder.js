@@ -40,7 +40,7 @@ const burgerBuilder = props => {
 
     const purchaseCancelHandler = () => {
         setPurchasing(false);
-        alert('Order Cancelled');
+        // alert('Order Cancelled');
     }
 
     const purchaseContinueHandler = () => {
