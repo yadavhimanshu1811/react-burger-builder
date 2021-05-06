@@ -40,7 +40,6 @@ const burgerBuilder = props => {
 
     const purchaseCancelHandler = () => {
         setPurchasing(false);
-        // alert('Order Cancelled');
     }
 
     const purchaseContinueHandler = () => {
@@ -83,8 +82,8 @@ const burgerBuilder = props => {
 
     return (
         <Aux>
-            <Modal show={purchasing}
-                modalClosed={purchaseCancelHandler}>
+            <Modal show={purchasing} modalClosed={purchaseCancelHandler}
+            >
                 {orderSummary}
             </Modal>
             {burger}
