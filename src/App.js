@@ -14,6 +14,7 @@ const app = props => {
 
     useEffect(()=> {
         props.onTryAutoSignUp();
+        //git check burger app
     },[]);
 
     let routes = (
